@@ -1,5 +1,4 @@
-version: "3.9"
-
+# Local production-like run: DB_CONNECTION_STRING=... docker compose up --build
 services:
   collective-memory-web:
     build:
@@ -9,7 +8,5 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://+:8080
+      ConnectionStrings__DefaultConnection: ${DB_CONNECTION_STRING:?set DB_CONNECTION_STRING}
     restart: unless-stopped
-

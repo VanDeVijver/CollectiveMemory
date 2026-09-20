@@ -1,8 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Shows";
 }
-<h1>@ViewData["Title"]</h1>
-
+@model CollectiveMemory.ViewModels.ShowsViewModel
+<!-- ═══════════════════════════════ SHOWS ═══════════════════════════════ -->
 <section id="shows" class="cm-section">
     <div class="container">
         <h2 class="cm-section-title">Shows</h2>
@@ -11,22 +11,54 @@
         </p>
 
         <div class="cm-shows-list mt-3">
-            <div class="cm-shows-item">
-                <div>
-                    <p class="cm-shows-date">Apr 30 · 2026</p>
-                    <p class="cm-shows-city">Gavere, BE</p>
-                    <p class="cm-shows-venue">Isorex Arena</p>
-                    <p class="cm-shows-time">21:00</p>
+            @if (Model.Shows.Any())
+            {
+                @foreach (var show in Model.Shows)
+                {
+                    <div class="cm-shows-item">
+                        <div>
+                            <p class="cm-shows-date">@show.DateDisplay</p>
+                            <p class="cm-shows-city">@show.City, BE</p>
+                            <p class="cm-shows-venue">@show.Venue</p>
+                            @if (show.LocationDisplay is not null)
+                            {
+                                <p class="cm-shows-address">@show.LocationDisplay</p>
+                            }
+                            <p class="cm-shows-time">@show.TimeDisplay</p>
+                            @if (show.AdditionalInfo is not null)
+                            {
+                                <p class="cm-shows-info">@show.AdditionalInfo</p>
+                            }
+                            @if (show.AdditionalLinks is not null && show.AdditionalLinks.Any())
+                            {
+                                <div class="cm-shows-links">
+                                    @foreach (var link in show.AdditionalLinks)
+                                    {
+                                        <a href="@link" target="_blank" rel="noopener noreferrer"
+                                           class="cm-shows-link">More info ↗</a>
+                                    }
+                                </div>
+                            }
+                        </div>
+                        <div class="cm-shows-actions">
+                            <span class="cm-shows-price @(show.IsFree ? "is-free" : "")">
+                                @show.PriceDisplay
+                            </span>
+
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="cm-shows-item is-muted">
+                    <div>
+                        <p class="cm-shows-date">More dates coming soon</p>
+                        <p class="cm-shows-city">Stay tuned</p>
+                        <p class="cm-shows-venue mb-0">Join the mailing list below.</p>
+                    </div>
                 </div>
-                <a href="#" class="btn btn-outline-light btn-sm">Tickets</a>
-            </div>
-            <div class="cm-shows-item is-muted">
-                <div>
-                    <p class="cm-shows-date">More dates coming soon</p>
-                    <p class="cm-shows-city">Stay tuned</p>
-                    <p class="cm-shows-venue mb-0">Join the mailing list below.</p>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </section>

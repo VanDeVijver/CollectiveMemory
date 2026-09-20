@@ -1,0 +1,17 @@
+# Render Blueprint: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: collective-memory
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    region: frankfurt   # same region as the Neon DB (aws eu-central-1)
+    plan: free          # spins down after ~15 min idle; switch to starter for always-on
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      # Set the value in the Render dashboard (never commit it). Use Npgsql key/value
+      # format, NOT Neon's postgresql:// URI:
+      #   Host=<host>;Database=<db>;Username=<user>;Password=<pw>;SSL Mode=VerifyFull;Channel Binding=Require
+      - key: ConnectionStrings__DefaultConnection
+        sync: false

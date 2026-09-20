@@ -1,0 +1,17 @@
+**/.git
+**/.github
+**/.vs
+**/.vscode
+**/bin
+**/obj
+**/*.user
+**/node_modules
+
+# Local dev settings can hold real credentials; never bake them into the image
+**/appsettings.Development.json
+
+*.md
+.dockerignore
+Dockerfile
+docker-compose*.yml
+render.yaml

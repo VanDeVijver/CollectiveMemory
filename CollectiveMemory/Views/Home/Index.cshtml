@@ -1,7 +1,9 @@
+@model CollectiveMemory.ViewModels.HomeIndexViewModel
 @{
     ViewData["Title"] = "Collective Memory";
 }
 
+<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
 <section class="cm-hero cm-fullbleed cm-paper d-flex align-items-center">
     <div class="cm-waves" aria-hidden="true"></div>
     <div class="container">
@@ -15,15 +17,14 @@
                 </p>
                 <div class="cm-hero-actions">
                     <a href="#clips" class="btn btn-primary btn-lg me-2">Watch now</a>
-                    <a asp-area="" asp-controller="Home" asp-action="Shows" class="btn btn-outline-light btn-lg">See upcoming shows</a>
+                    <a href="#shows" class="btn btn-outline-light btn-lg">See upcoming shows</a>
                 </div>
             </div>
             <div class="col-lg-5 d-none d-lg-block">
                 <div class="cm-hero-card">
-                    <img src="~/images/CollectiveMemoryBand.webp" alt="The Band" class="cm-hero-card-image">
+                    <img src="~/images/CollectiveMemoryBand.webp" alt="The Band" class="cm-hero-card-image" />
                     <p class="cm-hero-card-text">
-                        Expect soaring vocal stacks, acoustic warmth, and the moments everyone sings
-                        along to.
+                        Expect soaring vocal stacks, acoustic warmth, and the moments everyone sings along to.
                     </p>
                     <div class="cm-hero-badges">
                         <span class="badge rounded-pill bg-light text-dark">Harmony</span>
@@ -36,8 +37,10 @@
     </div>
 </section>
 
+<!-- ═══════════════════════════════ ABOUT + MEMBER CAROUSEL ═══════════════════════════════ -->
 <section id="about" class="cm-section">
     <div class="container">
+
         <div class="row justify-content-center text-center">
             <div class="col-lg-8">
                 <h2 class="cm-section-title">About the band</h2>
@@ -47,13 +50,13 @@
                 </p>
             </div>
         </div>
+
         <div class="row mt-4 gy-4">
             <div class="col-md-4">
                 <div class="cm-card">
                     <h3 class="cm-card-title">The sound</h3>
                     <p class="cm-card-text">
-                        Acoustic sparkle, electric bite, and the layered vocal harmonies that made
-                        CSNY unforgettable.
+                        Acoustic sparkle, electric bite, and the layered vocal harmonies that made CSNY unforgettable.
                     </p>
                 </div>
             </div>
@@ -61,8 +64,7 @@
                 <div class="cm-card">
                     <h3 class="cm-card-title">The songs</h3>
                     <p class="cm-card-text">
-                        From intimate acoustic moments to big sing-along choruses—deep cuts and
-                        essentials, chosen with love.
+                        From intimate acoustic moments to big sing-along choruses—deep cuts and essentials, chosen with love.
                     </p>
                 </div>
             </div>
@@ -70,24 +72,105 @@
                 <div class="cm-card">
                     <h3 class="cm-card-title">Live</h3>
                     <p class="cm-card-text">
-                        A warm, vibrant show with the harmonies front and center—built for rooms
-                        that want to feel the music.
+                        A warm, vibrant show with the harmonies front and center—built for rooms that want to feel the music.
                     </p>
                 </div>
             </div>
         </div>
+
+
+        @if (Model.Members.Any())
+        {
+            <div class="row justify-content-center text-center mt-5">
+                <div class="col-lg-8">
+                    <h3 class="cm-section-subtitle">Meet the band</h3>
+                </div>
+            </div>
+
+            <div id="memberCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
+
+               
+                <div class="carousel-indicators">
+                    @for (int i = 0; i < Model.Members.Count; i++)
+                    {
+                        <button type="button"
+                                data-bs-target="#memberCarousel"
+                                data-bs-slide-to="@i"
+                                class="@(i == 0 ? "active" : "")"
+                                aria-label="@Model.Members[i].FullName"
+                                @(i == 0 ? "aria-current=true" : "")>
+                        </button>
+                    }
+                </div>
+
+                
+                <div class="carousel-inner">
+                    @for (int i = 0; i < Model.Members.Count; i++)
+                    {
+                        var member = Model.Members[i];
+                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                            <div class="cm-member-card mx-auto">
+                                <div class="cm-member-grid">
+
+
+                                    <div class="cm-member-info">
+                                        <h4 class="cm-member-name">@member.FullName</h4>
+                                        <p class="cm-member-instruments">@member.InstrumentsDisplay</p>
+                                        <p class="cm-member-bio">@member.Bio</p>
+                                        @if (member.FavoriteMusic.Any())
+                                        {
+                                            <div class="cm-member-tags">
+                                                @foreach (var genre in member.FavoriteMusic)
+                                                {
+                                                    <span class="badge rounded-pill bg-light text-dark">@genre</span>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <div class="cm-member-image-wrap">
+                                        @if (member.Image is not null && member.Image != "placeholder")
+                                        {
+                                            <img src="~/images/members/@member.Image"
+                                                 alt="@member.FullName"
+                                                 class="cm-member-image" />
+                                        }
+                                        else
+                                        {
+                                            <div class="cm-member-image-placeholder" aria-hidden="true">
+                                                <span>@member.Firstname.Trim()[0]@member.Lastname.Trim()[0]</span>
+                                            </div>
+                                        }
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                
+                <button class="carousel-control-prev" type="button" data-bs-target="#memberCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#memberCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        }
     </div>
 </section>
 
+<!-- ═══════════════════════════════ CLIPS ═══════════════════════════════ -->
 <section id="clips" class="cm-section cm-section-alt cm-fullbleed cm-paper">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="cm-section-title mb-0">Watch now</h2>
             <span class="cm-section-tag">Past show clips</span>
         </div>
-        <p class="cm-section-lead">
-            A few short moments from the stage.
-        </p>
+        <p class="cm-section-lead">A few short moments from the stage.</p>
 
         <div class="row gy-4 mt-3">
             <div class="col-md-6 col-lg-4">
@@ -96,7 +179,8 @@
                         <h3 class="cm-clip-title">Suite: Judy Blue Eyes (chorus)</h3>
                         <p class="cm-clip-meta">Gavere · Apr 2026</p>
                         <div class="cm-clip-media">
-                            <video class="cm-clip-video" controls preload="metadata" playsinline poster="~/media/clips/posters/judy-blue-eyes-chorus.jpg">
+                            <video class="cm-clip-video" controls preload="metadata" playsinline
+                                   poster="~/media/clips/posters/judy-blue-eyes-chorus.jpg">
                                 <source src="~/media/clips/judy-blue-eyes-chorus.mp4" type="video/mp4" />
                                 <source src="~/media/clips/judy-blue-eyes-chorus.webm" type="video/webm" />
                             </video>
@@ -104,14 +188,14 @@
                     </div>
                 </article>
             </div>
-
             <div class="col-md-6 col-lg-4">
                 <article class="cm-clip-card">
                     <div class="cm-clip-body">
                         <h3 class="cm-clip-title">Helplessly Hoping (intro)</h3>
                         <p class="cm-clip-meta">Live room capture</p>
                         <div class="cm-clip-media">
-                            <video class="cm-clip-video" controls preload="metadata" playsinline poster="~/media/clips/posters/helplessly-hoping-intro.jpg">
+                            <video class="cm-clip-video" controls preload="metadata" playsinline
+                                   poster="~/media/clips/posters/helplessly-hoping-intro.jpg">
                                 <source src="~/media/clips/helplessly-hoping-intro.mp4" type="video/mp4" />
                                 <source src="~/media/clips/helplessly-hoping-intro.webm" type="video/webm" />
                             </video>
@@ -119,14 +203,14 @@
                     </div>
                 </article>
             </div>
-
             <div class="col-md-6 col-lg-4">
                 <article class="cm-clip-card">
                     <div class="cm-clip-body">
                         <h3 class="cm-clip-title">Teach Your Children (sing-along)</h3>
                         <p class="cm-clip-meta">Audience moment</p>
                         <div class="cm-clip-media">
-                            <video class="cm-clip-video" controls preload="metadata" playsinline poster="~/media/clips/posters/teach-your-children-singalong.jpg">
+                            <video class="cm-clip-video" controls preload="metadata" playsinline
+                                   poster="~/media/clips/posters/teach-your-children-singalong.jpg">
                                 <source src="~/media/clips/teach-your-children-singalong.mp4" type="video/mp4" />
                                 <source src="~/media/clips/teach-your-children-singalong.webm" type="video/webm" />
                             </video>
@@ -138,7 +222,7 @@
     </div>
 </section>
 
-
+<!-- ═══════════════════════════════ SHOWS ═══════════════════════════════ -->
 <section id="shows" class="cm-section">
     <div class="container">
         <h2 class="cm-section-title">Shows</h2>
@@ -147,38 +231,71 @@
         </p>
 
         <div class="cm-shows-list mt-3">
-            <div class="cm-shows-item">
-                <div>
-                    <p class="cm-shows-date">Apr 30 · 2026</p>
-                    <p class="cm-shows-city">Gavere, BE</p>
-                    <p class="cm-shows-venue">Isorex Arena</p>
-                    <p class="cm-shows-time">21:00</p>
+            @if (Model.Shows.Any())
+            {
+                @foreach (var show in Model.Shows)
+                {
+                    <div class="cm-shows-item">
+                        <div>
+                            <p class="cm-shows-date">@show.DateDisplay</p>
+                            <p class="cm-shows-city">@show.City, BE</p>
+                            <p class="cm-shows-venue">@show.Venue</p>
+                            @if (show.LocationDisplay is not null)
+                            {
+                                <p class="cm-shows-address">@show.LocationDisplay</p>
+                            }
+                            <p class="cm-shows-time">@show.TimeDisplay</p>
+                            @if (show.AdditionalInfo is not null)
+                            {
+                                <p class="cm-shows-info">@show.AdditionalInfo</p>
+                            }
+                            @if (show.AdditionalLinks is not null && show.AdditionalLinks.Any())
+                            {
+                                <div class="cm-shows-links">
+                                    @foreach (var link in show.AdditionalLinks)
+                                    {
+                                        <a href="@link" target="_blank" rel="noopener noreferrer"
+                                           class="cm-shows-link">More info ↗</a>
+                                    }
+                                </div>
+                            }
+                        </div>
+                        <div class="cm-shows-actions">
+                            <span class="cm-shows-price @(show.IsFree ? "is-free" : "")">
+                                @show.PriceDisplay
+                            </span>
+                           
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="cm-shows-item is-muted">
+                    <div>
+                        <p class="cm-shows-date">More dates coming soon</p>
+                        <p class="cm-shows-city">Stay tuned</p>
+                        <p class="cm-shows-venue mb-0">Join the mailing list below.</p>
+                    </div>
                 </div>
-                <a href="#" class="btn btn-outline-light btn-sm">Tickets</a>
-            </div>
-            <div class="cm-shows-item is-muted">
-                <div>
-                    <p class="cm-shows-date">More dates coming soon</p>
-                    <p class="cm-shows-city">Stay tuned</p>
-                    <p class="cm-shows-venue mb-0">Join the mailing list below.</p>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </section>
 
+<!-- ═══════════════════════════════ CONTACT ═══════════════════════════════ -->
 <section id="contact" class="cm-section cm-section-alt cm-fullbleed cm-paper">
     <div class="container">
         <div class="row align-items-center gy-4">
             <div class="col-lg-7">
                 <h2 class="cm-section-title">Bookings &amp; contact</h2>
                 <p class="cm-section-lead">
-                    For bookings and press inquiries, reach out and we’ll get back to you as soon as possible.
+                    For bookings and press inquiries, reach out and we'll get back to you as soon as possible.
                 </p>
                 <ul class="cm-contact-list">
-                    <li><span>Management</span> bookings@collectivememory.band</li>
-                    <li><span>Press</span> press@collectivememory.band</li>
-                    <li><span>General</span> hello@collectivememory.band</li>
+                    <li><span>Management</span> barrrchoque@gmail.com</li>
+                    <li><span>Press</span> barrrchoque@gmail.com</li>
+                    <li><span>General</span> barrrchoque@gmail.com</li>
                 </ul>
             </div>
             <div class="col-lg-5">
@@ -195,9 +312,7 @@
                         <button type="submit" class="btn btn-primary w-100">
                             Join the mailing list
                         </button>
-                        <p class="cm-form-note">
-                            We respect your inbox. No spam, just the good stuff.
-                        </p>
+                        <p class="cm-form-note">We respect your inbox. No spam, just the good stuff.</p>
                     </form>
                 </div>
             </div>
