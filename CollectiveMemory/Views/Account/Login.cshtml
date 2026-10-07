@@ -1,0 +1,30 @@
+@model CollectiveMemory.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Band login";
+}
+
+<section class="cm-section">
+    <div class="container" style="max-width: 28rem;">
+        <h1 class="cm-section-title">Band login</h1>
+        <p class="cm-section-lead">For band members only: manage the upcoming shows.</p>
+
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+        <form asp-action="Login" method="post" class="cm-newsletter-card">
+            <input type="hidden" asp-for="ReturnUrl" />
+
+            <div class="mb-3">
+                <label asp-for="Username" class="form-label"></label>
+                <input asp-for="Username" class="form-control" autocomplete="username" autofocus />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" class="form-control" autocomplete="current-password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Log in</button>
+        </form>
+    </div>
+</section>

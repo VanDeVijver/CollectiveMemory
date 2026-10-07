@@ -1,11 +1,12 @@
 ﻿
 using CollectiveMemory.Core.Entities;
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CollectiveMemory.Core.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IDataProtectionKeyContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -14,6 +15,9 @@ namespace CollectiveMemory.Core.Data
 
         public DbSet<Show> Shows => Set<Show>();
         public DbSet<Member> Members => Set<Member>();
+
+        // Auth cookie/antiforgery keys live in the database so they survive container restarts.
+        public DbSet<DataProtectionKey> DataProtectionKeys => Set<DataProtectionKey>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

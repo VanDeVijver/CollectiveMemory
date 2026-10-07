@@ -15,3 +15,10 @@ services:
       #   Host=<host>;Database=<db>;Username=<user>;Password=<pw>;SSL Mode=VerifyFull;Channel Binding=Require
       - key: ConnectionStrings__DefaultConnection
         sync: false
+      # Band admin login (creates the account on first start; existing accounts are never changed).
+      # Set both in the Render dashboard. Password: at least 10 characters, with a digit,
+      # an upper-case and a lower-case letter.
+      - key: Admin__Username
+        sync: false
+      - key: Admin__Password
+        sync: false

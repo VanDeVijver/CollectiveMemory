@@ -267,6 +267,28 @@ body {
 }
 
 
+.cm-about-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 1.25rem;
+  border: 2px solid rgba(38, 23, 15, 0.72);
+  box-shadow: 12px 12px 0 rgba(38, 23, 15, 0.24);
+}
+
+/* Keep every slide laid out (just hidden) so the carousel is always as tall as its
+   tallest member card and the page doesn't jump when sliding. */
+#memberCarousel .carousel-item {
+    display: block;
+    visibility: hidden;
+}
+
+#memberCarousel .carousel-item.active,
+#memberCarousel .carousel-item-next,
+#memberCarousel .carousel-item-prev {
+    visibility: visible;
+}
+
 /* Two-column grid card */
 .cm-member-grid {
     display: grid;
@@ -293,6 +315,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center 10%; /* portraits: keep the face, not the torso */
 }
 
 .cm-member-image-placeholder {

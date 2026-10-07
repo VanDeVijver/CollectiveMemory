@@ -1,0 +1,17 @@
+@{
+    ViewData["Title"] = "Page not found";
+}
+
+<section class="cm-section text-center">
+    <div class="container">
+        <h1 class="cm-hero-title">404</h1>
+        <h2 class="cm-section-title">This page is out of tune</h2>
+        <p class="cm-section-lead mx-auto">
+            We couldn't find the page you were looking for. It may have moved, or the link might be mistyped.
+        </p>
+        <div class="mt-4">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg me-2">Back to home</a>
+            <a asp-controller="Home" asp-action="Shows" class="btn btn-outline-light btn-lg">See upcoming shows</a>
+        </div>
+    </div>
+</section>

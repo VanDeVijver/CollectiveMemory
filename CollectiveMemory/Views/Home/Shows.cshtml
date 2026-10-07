@@ -15,38 +15,7 @@
             {
                 @foreach (var show in Model.Shows)
                 {
-                    <div class="cm-shows-item">
-                        <div>
-                            <p class="cm-shows-date">@show.DateDisplay</p>
-                            <p class="cm-shows-city">@show.City, BE</p>
-                            <p class="cm-shows-venue">@show.Venue</p>
-                            @if (show.LocationDisplay is not null)
-                            {
-                                <p class="cm-shows-address">@show.LocationDisplay</p>
-                            }
-                            <p class="cm-shows-time">@show.TimeDisplay</p>
-                            @if (show.AdditionalInfo is not null)
-                            {
-                                <p class="cm-shows-info">@show.AdditionalInfo</p>
-                            }
-                            @if (show.AdditionalLinks is not null && show.AdditionalLinks.Any())
-                            {
-                                <div class="cm-shows-links">
-                                    @foreach (var link in show.AdditionalLinks)
-                                    {
-                                        <a href="@link" target="_blank" rel="noopener noreferrer"
-                                           class="cm-shows-link">More info ↗</a>
-                                    }
-                                </div>
-                            }
-                        </div>
-                        <div class="cm-shows-actions">
-                            <span class="cm-shows-price @(show.IsFree ? "is-free" : "")">
-                                @show.PriceDisplay
-                            </span>
-
-                        </div>
-                    </div>
+                    <partial name="_ShowItem" model="show" />
                 }
             }
             else

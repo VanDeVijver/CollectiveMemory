@@ -1,4 +1,4 @@
-@model CollectiveMemory.ViewModels.HomeIndexViewModel
+﻿@model CollectiveMemory.ViewModels.HomeIndexViewModel
 @{
     ViewData["Title"] = "Collective Memory";
 }
@@ -22,15 +22,7 @@
             </div>
             <div class="col-lg-5 d-none d-lg-block">
                 <div class="cm-hero-card">
-                    <img src="~/images/CollectiveMemoryBand.webp" alt="The Band" class="cm-hero-card-image" />
-                    <p class="cm-hero-card-text">
-                        Expect soaring vocal stacks, acoustic warmth, and the moments everyone sings along to.
-                    </p>
-                    <div class="cm-hero-badges">
-                        <span class="badge rounded-pill bg-light text-dark">Harmony</span>
-                        <span class="badge rounded-pill bg-light text-dark">Acoustic</span>
-                        <span class="badge rounded-pill bg-light text-dark">Classic Rock</span>
-                    </div>
+                    <img src="~/images/Logo_CMXL.webp" alt="Collective Memory XL logo" class="cm-hero-card-image" />
                 </div>
             </div>
         </div>
@@ -51,33 +43,9 @@
             </div>
         </div>
 
-        <div class="row mt-4 gy-4">
-            <div class="col-md-4">
-                <div class="cm-card">
-                    <h3 class="cm-card-title">The sound</h3>
-                    <p class="cm-card-text">
-                        Acoustic sparkle, electric bite, and the layered vocal harmonies that made CSNY unforgettable.
-                    </p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="cm-card">
-                    <h3 class="cm-card-title">The songs</h3>
-                    <p class="cm-card-text">
-                        From intimate acoustic moments to big sing-along choruses—deep cuts and essentials, chosen with love.
-                    </p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="cm-card">
-                    <h3 class="cm-card-title">Live</h3>
-                    <p class="cm-card-text">
-                        A warm, vibrant show with the harmonies front and center—built for rooms that want to feel the music.
-                    </p>
-                </div>
-            </div>
-        </div>
 
+        <img src="~/images/Collective_Memory_XL_bandfoto.webp" alt="Collective Memory XL on stage"
+             class="cm-about-photo mt-5" width="2000" height="1516" loading="lazy" />
 
         @if (Model.Members.Any())
         {
@@ -176,13 +144,13 @@
             <div class="col-md-6 col-lg-4">
                 <article class="cm-clip-card">
                     <div class="cm-clip-body">
-                        <h3 class="cm-clip-title">Suite: Judy Blue Eyes (chorus)</h3>
+                        <h3 class="cm-clip-title">Live at Isorex Arena</h3>
                         <p class="cm-clip-meta">Gavere · Apr 2026</p>
                         <div class="cm-clip-media">
                             <video class="cm-clip-video" controls preload="metadata" playsinline
-                                   poster="~/media/clips/posters/judy-blue-eyes-chorus.jpg">
-                                <source src="~/media/clips/judy-blue-eyes-chorus.mp4" type="video/mp4" />
-                                <source src="~/media/clips/judy-blue-eyes-chorus.webm" type="video/webm" />
+                                   poster="~/media/clips/posters/clip-1.jpg">
+                                <source src="~/media/clips/clip-1.mp4" type="video/mp4" />
+                                <source src="~/media/clips/clip-1.webm" type="video/webm" />
                             </video>
                         </div>
                     </div>
@@ -191,13 +159,13 @@
             <div class="col-md-6 col-lg-4">
                 <article class="cm-clip-card">
                     <div class="cm-clip-body">
-                        <h3 class="cm-clip-title">Helplessly Hoping (intro)</h3>
-                        <p class="cm-clip-meta">Live room capture</p>
+                        <h3 class="cm-clip-title">Live at Isorex Arena</h3>
+                        <p class="cm-clip-meta">Gavere · Apr 2026</p>
                         <div class="cm-clip-media">
                             <video class="cm-clip-video" controls preload="metadata" playsinline
-                                   poster="~/media/clips/posters/helplessly-hoping-intro.jpg">
-                                <source src="~/media/clips/helplessly-hoping-intro.mp4" type="video/mp4" />
-                                <source src="~/media/clips/helplessly-hoping-intro.webm" type="video/webm" />
+                                   poster="~/media/clips/posters/clip-2.jpg">
+                                <source src="~/media/clips/clip-2.mp4" type="video/mp4" />
+                                <source src="~/media/clips/clip-2.webm" type="video/webm" />
                             </video>
                         </div>
                     </div>
@@ -206,13 +174,13 @@
             <div class="col-md-6 col-lg-4">
                 <article class="cm-clip-card">
                     <div class="cm-clip-body">
-                        <h3 class="cm-clip-title">Teach Your Children (sing-along)</h3>
-                        <p class="cm-clip-meta">Audience moment</p>
+                        <h3 class="cm-clip-title">Live at Isorex Arena</h3>
+                        <p class="cm-clip-meta">Gavere · Apr 2026</p>
                         <div class="cm-clip-media">
                             <video class="cm-clip-video" controls preload="metadata" playsinline
-                                   poster="~/media/clips/posters/teach-your-children-singalong.jpg">
-                                <source src="~/media/clips/teach-your-children-singalong.mp4" type="video/mp4" />
-                                <source src="~/media/clips/teach-your-children-singalong.webm" type="video/webm" />
+                                   poster="~/media/clips/posters/clip-3.jpg">
+                                <source src="~/media/clips/clip-3.mp4" type="video/mp4" />
+                                <source src="~/media/clips/clip-3.webm" type="video/webm" />
                             </video>
                         </div>
                     </div>
@@ -235,38 +203,7 @@
             {
                 @foreach (var show in Model.Shows)
                 {
-                    <div class="cm-shows-item">
-                        <div>
-                            <p class="cm-shows-date">@show.DateDisplay</p>
-                            <p class="cm-shows-city">@show.City, BE</p>
-                            <p class="cm-shows-venue">@show.Venue</p>
-                            @if (show.LocationDisplay is not null)
-                            {
-                                <p class="cm-shows-address">@show.LocationDisplay</p>
-                            }
-                            <p class="cm-shows-time">@show.TimeDisplay</p>
-                            @if (show.AdditionalInfo is not null)
-                            {
-                                <p class="cm-shows-info">@show.AdditionalInfo</p>
-                            }
-                            @if (show.AdditionalLinks is not null && show.AdditionalLinks.Any())
-                            {
-                                <div class="cm-shows-links">
-                                    @foreach (var link in show.AdditionalLinks)
-                                    {
-                                        <a href="@link" target="_blank" rel="noopener noreferrer"
-                                           class="cm-shows-link">More info ↗</a>
-                                    }
-                                </div>
-                            }
-                        </div>
-                        <div class="cm-shows-actions">
-                            <span class="cm-shows-price @(show.IsFree ? "is-free" : "")">
-                                @show.PriceDisplay
-                            </span>
-                           
-                        </div>
-                    </div>
+                    <partial name="_ShowItem" model="show" />
                 }
             }
             else

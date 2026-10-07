@@ -2,6 +2,7 @@ using CollectiveMemory.Core.Data;
 using CollectiveMemory.Core.Entities;
 using CollectiveMemory.Core.Services;
 using CollectiveMemory.Core.Services.Interfaces;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,11 +34,28 @@ namespace CollectiveMemory
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireDigit = true;
-                options.Password.RequiredLength = 8;
+                options.Password.RequiredLength = 10;
                 options.Password.RequireNonAlphanumeric = false;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/Login";
+                options.ExpireTimeSpan = TimeSpan.FromHours(8);
+                options.SlidingExpiration = true;
+                options.Cookie.SecurePolicy = builder.Environment.IsDevelopment()
+                    ? CookieSecurePolicy.SameAsRequest
+                    : CookieSecurePolicy.Always;
+            });
+
+            // Keys live in the database: container disks are ephemeral, and losing them would
+            // sign everyone out and invalidate open forms on every restart / free-plan spin-down.
+            builder.Services.AddDataProtection()
+                .SetApplicationName("CollectiveMemory")
+                .PersistKeysToDbContext<ApplicationDbContext>();
 
             //Register Services
             builder.Services.AddScoped<IShowService, ShowService>();
@@ -56,6 +74,20 @@ namespace CollectiveMemory
             using (var scope = app.Services.CreateScope())
             {
                 scope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
+
+                var adminUsername = app.Configuration["Admin:Username"];
+                var adminPassword = app.Configuration["Admin:Password"];
+                if (string.IsNullOrEmpty(adminUsername) || string.IsNullOrEmpty(adminPassword))
+                {
+                    app.Logger.LogWarning("Admin:Username / Admin:Password not set - no admin account was seeded.");
+                }
+                else
+                {
+                    IdentitySeeder.SeedAdminAsync(
+                        scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>(),
+                        scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>(),
+                        adminUsername, adminPassword).GetAwaiter().GetResult();
+                }
             }
 
             // --- Middleware pipeline ---
@@ -64,6 +96,8 @@ namespace CollectiveMemory
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            app.UseStatusCodePagesWithReExecute("/Home/HttpStatus/{0}");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

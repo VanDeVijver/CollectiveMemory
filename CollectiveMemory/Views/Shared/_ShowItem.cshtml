@@ -1,0 +1,41 @@
+@model CollectiveMemory.ViewModels.ShowViewModel
+
+<div class="cm-shows-item">
+    <div>
+        <p class="cm-shows-date">@Model.DateDisplay</p>
+        <p class="cm-shows-city">@Model.City, BE</p>
+        <p class="cm-shows-venue">@Model.Venue</p>
+        @if (Model.LocationDisplay is not null)
+        {
+            <p class="cm-shows-address">@Model.LocationDisplay</p>
+        }
+        <p class="cm-shows-time">@Model.TimeDisplay</p>
+        @if (Model.AdditionalInfo is not null)
+        {
+            <p class="cm-shows-info">@Model.AdditionalInfo</p>
+        }
+        @if (Model.AdditionalLinks is not null && Model.AdditionalLinks.Any())
+        {
+            <div class="cm-shows-links">
+                @foreach (var link in Model.AdditionalLinks)
+                {
+                    <a href="@link" target="_blank" rel="noopener noreferrer"
+                       class="cm-shows-link">More info ↗</a>
+                }
+            </div>
+        }
+    </div>
+    <div class="cm-shows-actions">
+        <span class="cm-shows-price @(Model.IsFree ? "is-free" : "")">
+            @Model.PriceDisplay
+        </span>
+        @if (ViewData["ShowDelete"] is true)
+        {
+            <form asp-controller="Admin" asp-action="Delete" asp-route-id="@Model.Id" method="post"
+                  class="mt-2"
+                  onsubmit="return confirm('Remove this show from the website?');">
+                <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+            </form>
+        }
+    </div>
+</div>

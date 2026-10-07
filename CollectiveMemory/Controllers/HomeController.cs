@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using CollectiveMemory.Core.Services;
 using CollectiveMemory.Core.Services.Interfaces;
 using CollectiveMemory.Models;
@@ -56,18 +56,7 @@ namespace CollectiveMemory.Controllers
                     Image = m.Image,
                 }).ToList(),
 
-                Shows = shows.Select(s => new ShowViewModel
-                {
-                    Id = s.Id,
-                    Venue = s.Venue,
-                    City = s.City,
-                    Street = s.Street,
-                    StreetNumber = s.StreetNumber,
-                    Date = s.Date,
-                    Price = s.Price,
-                    AdditionalInfo = s.AdditionalInfo,
-                    AdditionalLinks = s.AdditionalLinks,
-                }).ToList()
+                Shows = UpcomingShows(shows)
             };
 
 
@@ -88,26 +77,33 @@ namespace CollectiveMemory.Controllers
 
             var vm = new ShowsViewModel
             {
-                Shows = shows.Select(s => new ShowViewModel
-                {
-                    Id = s.Id,
-                    Venue = s.Venue,
-                    City = s.City,
-                    Street = s.Street,
-                    StreetNumber = s.StreetNumber,
-                    Date = s.Date,
-                    Price = s.Price,
-                    AdditionalInfo = s.AdditionalInfo,
-                    AdditionalLinks = s.AdditionalLinks,
-                }).ToList()
+                Shows = UpcomingShows(shows)
             };
             return View(vm);
         }
+
+        // Public pages only list shows that haven't happened yet, soonest first.
+        private static List<ShowViewModel> UpcomingShows(IEnumerable<Show>? shows) =>
+            (shows ?? [])
+                .Where(s => s.Date.Date >= DateTime.UtcNow.Date)
+                .OrderBy(s => s.Date)
+                .Select(ShowViewModel.From)
+                .ToList();
+
+        public IActionResult Privacy() => View();
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        // Target of UseStatusCodePagesWithReExecute; the original status code is preserved.
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult HttpStatus(int id)
+        {
+            if (id == 404) return View("NotFound");
+            return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

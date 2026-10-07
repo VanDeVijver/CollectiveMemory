@@ -12,6 +12,19 @@
         public string? AdditionalInfo { get; set; }
         public List<string>? AdditionalLinks { get; set; }
 
+        public static ShowViewModel From(Core.Entities.Show s) => new()
+        {
+            Id = s.Id,
+            Venue = s.Venue,
+            City = s.City,
+            Street = s.Street,
+            StreetNumber = s.StreetNumber,
+            Date = s.Date,
+            Price = s.Price,
+            AdditionalInfo = s.AdditionalInfo,
+            AdditionalLinks = s.AdditionalLinks,
+        };
+
         // Computed display helpers
         public string DateDisplay => Date.ToString("MMM dd · yyyy");
         public string TimeDisplay => Date.ToString("HH:mm");

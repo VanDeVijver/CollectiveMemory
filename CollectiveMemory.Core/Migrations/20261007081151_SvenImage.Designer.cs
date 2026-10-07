@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CollectiveMemory.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CollectiveMemory.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261007081151_SvenImage")]
+    partial class SvenImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,6 +91,25 @@ namespace CollectiveMemory.Core.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "00000000-0000-0000-0000-000000000001",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "static-user-stamp-001",
+                            DisplayName = "Bert Denayer",
+                            Email = "test@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "TEST@GMAIL.COM",
+                            NormalizedUserName = "TEST@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELixbNd2gGUJVWqBOxeqgY9YuTSAdqTWMvwAU0H243u/bG/t4XwtlMYs697+4nJrSA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "13010aab-74fe-4108-8b41-c2e6d5ca62e1",
+                            TwoFactorEnabled = false,
+                            UserName = "test@gmail.com"
+                        });
                 });
 
             modelBuilder.Entity("CollectiveMemory.Core.Entities.Member", b =>
@@ -284,25 +306,6 @@ namespace CollectiveMemory.Core.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("FriendlyName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Xml")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DataProtectionKeys");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -423,6 +426,13 @@ namespace CollectiveMemory.Core.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "00000000-0000-0000-0000-000000000001",
+                            RoleId = "00000000-0000-0000-0000-000000000001"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

@@ -8,10 +8,6 @@ namespace CollectiveMemory.Core.Data
     {
         private const string AdminRoleId = "00000000-0000-0000-0000-000000000001";
         private const string AdminRoleName = "Admin";
-        private const string AdminUserId = "00000000-0000-0000-0000-000000000001";
-        private const string AdminFirstName = "Bert";
-        private const string AdminLastName = "Denayer";
-        private const string AdminEmail = "test@gmail.com";
 
         // Static seed date — never changes, never causes spurious migrations
         private static readonly DateTime SeedDate =
@@ -20,8 +16,6 @@ namespace CollectiveMemory.Core.Data
         public static void Seed(ModelBuilder builder)
         {
             SeedRoles(builder);
-            SeedUsers(builder);
-            SeedUserRoles(builder);
             SeedMembers(builder);
             SeedShows(builder);
         }
@@ -37,37 +31,6 @@ namespace CollectiveMemory.Core.Data
                     ConcurrencyStamp = "static-role-stamp-001" // static — no spurious migrations
                 }
             );
-        }
-
-        private static void SeedUserRoles(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
-                new IdentityUserRole<string>
-                {
-                    RoleId = AdminRoleId,
-                    UserId = AdminUserId
-                }
-            );
-        }
-
-        private static void SeedUsers(ModelBuilder modelBuilder)
-        {
-            var hasher = new PasswordHasher<ApplicationUser>();
-
-            var adminUser = new ApplicationUser
-            {
-                Id = AdminUserId,
-                UserName = AdminEmail,
-                NormalizedUserName = AdminEmail.ToUpper(),
-                Email = AdminEmail,
-                NormalizedEmail = AdminEmail.ToUpper(),
-                EmailConfirmed = true,
-                DisplayName = $"{AdminFirstName} {AdminLastName}",
-                ConcurrencyStamp = "static-user-stamp-001" // static — no spurious migrations
-            };
-            adminUser.PasswordHash = hasher.HashPassword(adminUser, "Test1");
-
-            modelBuilder.Entity<ApplicationUser>().HasData(adminUser);
         }
 
         private static void SeedMembers(ModelBuilder builder)
@@ -147,7 +110,7 @@ namespace CollectiveMemory.Core.Data
                     FavoriteMusic = new List<string> { "TO BE INSERTED" },
                     Instruments = new List<string> { "Gitaar", "Vocals" },
                     Bio = "TO BE INSERTED",
-                    Image = "placeholder",
+                    Image = "Sven.webp",
                     CreatedAt = SeedDate
                 }
             );
