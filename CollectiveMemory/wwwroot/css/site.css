@@ -643,4 +643,64 @@ body {
   aspect-ratio: 16 / 9;
   display: block;
   object-fit: cover;
+  border: 0;
+}
+
+/* Carousels with arrows in the side gutters (clips and members): the arrows never cover the slide */
+.cm-gutter-carousel {
+  padding: 0 3.25rem;
+}
+
+/* page dots: below the slide in the theme's dark colour, not on top of the card */
+.cm-gutter-carousel .carousel-indicators {
+  bottom: -2.25rem;
+  margin: 0;
+}
+
+.cm-gutter-carousel .carousel-indicators [data-bs-target] {
+  background-color: rgba(38, 23, 15, 0.85);
+}
+
+/* clips only: room inside each slide for the cards' offset shadow (the carousel clips overflow) */
+.cm-clip-carousel .carousel-item {
+  padding: 0 14px 16px 0;
+}
+
+.cm-gutter-carousel .carousel-control-prev,
+.cm-gutter-carousel .carousel-control-next {
+  width: 3rem;
+  opacity: 1;
+}
+
+.cm-gutter-carousel .carousel-control-prev-icon,
+.cm-gutter-carousel .carousel-control-next-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-size: 45%;
+  background-color: rgba(38, 23, 15, 0.88);
+  border: 2px solid rgba(38, 23, 15, 0.88);
+  border-radius: 50%;
+  box-shadow: 3px 3px 0 rgba(38, 23, 15, 0.25);
+}
+
+.cm-gutter-carousel .carousel-control-prev:hover .carousel-control-prev-icon,
+.cm-gutter-carousel .carousel-control-next:hover .carousel-control-next-icon {
+  background-color: #c83b18;
+}
+
+@media (max-width: 576px) {
+  .cm-gutter-carousel {
+    padding: 0 2.5rem;
+  }
+
+  .cm-gutter-carousel .carousel-control-prev,
+  .cm-gutter-carousel .carousel-control-next {
+    width: 2.25rem;
+  }
+
+  .cm-gutter-carousel .carousel-control-prev-icon,
+  .cm-gutter-carousel .carousel-control-next-icon {
+    width: 2rem;
+    height: 2rem;
+  }
 }

@@ -18,6 +18,7 @@ namespace CollectiveMemory.Core.Data
             SeedRoles(builder);
             SeedMembers(builder);
             SeedShows(builder);
+            SeedClips(builder);
         }
 
         private static void SeedRoles(ModelBuilder modelBuilder)
@@ -147,6 +148,22 @@ namespace CollectiveMemory.Core.Data
                     Price = 0.0,
                     CreatedAt = SeedDate
                 }
+            );
+        }
+
+        private static void SeedClips(ModelBuilder builder)
+        {
+            // The three clips cut from the Isorex Arena try-out, served from wwwroot/media/clips.
+            builder.Entity<Clip>().HasData(
+                Enumerable.Range(1, 3).Select(n => new Clip
+                {
+                    Id = n,
+                    Title = "Live at Isorex Arena",
+                    Subtitle = "Gavere · Apr 2026",
+                    VideoUrl = $"/media/clips/clip-{n}.mp4",
+                    PosterUrl = $"/media/clips/posters/clip-{n}.jpg",
+                    CreatedAt = SeedDate
+                }).ToArray()
             );
         }
     }

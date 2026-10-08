@@ -1,0 +1,31 @@
+﻿@model CollectiveMemory.ViewModels.ClipViewModel
+
+<article class="cm-clip-card">
+    <div class="cm-clip-body">
+        <h3 class="cm-clip-title">@Model.Title</h3>
+        @if (!string.IsNullOrWhiteSpace(Model.Subtitle))
+        {
+            <p class="cm-clip-meta">@Model.Subtitle</p>
+        }
+        <div class="cm-clip-media">
+            @if (Model.YouTubeEmbedUrl is { } embed)
+            {
+                <iframe class="cm-clip-video" src="@embed" title="@Model.Title" loading="lazy"
+                        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            }
+            else
+            {
+                <video class="cm-clip-video" controls preload="@(ViewData["Preload"] ?? "metadata")" playsinline
+                       poster="@Model.PosterUrl" src="@(Model.VideoUrl)#t=0.1"></video>
+            }
+        </div>
+        @if (ViewData["ClipDelete"] is true)
+        {
+            <form asp-controller="Admin" asp-action="DeleteClip" asp-route-id="@Model.Id" method="post"
+                  onsubmit="return confirm('Remove this clip from the website?');">
+                <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+            </form>
+        }
+    </div>
+</article>

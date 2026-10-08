@@ -13,18 +13,21 @@ namespace CollectiveMemory.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IShowService _showService;
         private readonly IMemberService _memberService;
+        private readonly IClipService _clipService;
 
-        public HomeController(IShowService showService, IMemberService memberService,ILogger<HomeController> logger)
+        public HomeController(IShowService showService, IMemberService memberService, IClipService clipService, ILogger<HomeController> logger)
         {
             _logger = logger;
             _showService = showService;
             _memberService = memberService;
+            _clipService = clipService;
         }
 
         public async Task<IActionResult> Index()
         {
             var membersResult = await _memberService.GetAllAsync();
             var showsResult = await _showService.GetAllAsync();
+            var clipsResult = await _clipService.GetAllAsync();
 
             var members = membersResult.Data;
             var shows = showsResult.Data;
@@ -50,13 +53,17 @@ namespace CollectiveMemory.Controllers
                     Firstname = m.Firstname,
                     Lastname = m.Lastname,
                     Bands = m.Bands,
-                    FavoriteMusic = m.FavoriteMusic,
                     Instruments = m.Instruments,
                     Bio = m.Bio,
                     Image = m.Image,
                 }).ToList(),
 
-                Shows = UpcomingShows(shows)
+                Shows = UpcomingShows(shows),
+
+                // Newest clips first; the page shows them three at a time.
+                Clips = (clipsResult.Data ?? [])
+                    .OrderByDescending(c => c.CreatedAt).ThenBy(c => c.Id)
+                    .Select(ClipViewModel.From).ToList()
             };
 
 

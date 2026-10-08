@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <div id="memberCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
+            <div id="memberCarousel" class="carousel slide cm-gutter-carousel mt-4 mb-5" data-bs-ride="carousel">
 
                
                 <div class="carousel-indicators">
@@ -85,15 +85,6 @@
                                         <h4 class="cm-member-name">@member.FullName</h4>
                                         <p class="cm-member-instruments">@member.InstrumentsDisplay</p>
                                         <p class="cm-member-bio">@member.Bio</p>
-                                        @if (member.FavoriteMusic.Any())
-                                        {
-                                            <div class="cm-member-tags">
-                                                @foreach (var genre in member.FavoriteMusic)
-                                                {
-                                                    <span class="badge rounded-pill bg-light text-dark">@genre</span>
-                                                }
-                                            </div>
-                                        }
                                     </div>
 
                                     <div class="cm-member-image-wrap">
@@ -140,53 +131,46 @@
         </div>
         <p class="cm-section-lead">A few short moments from the stage.</p>
 
-        <div class="row gy-4 mt-3">
-            <div class="col-md-6 col-lg-4">
-                <article class="cm-clip-card">
-                    <div class="cm-clip-body">
-                        <h3 class="cm-clip-title">Live at Isorex Arena</h3>
-                        <p class="cm-clip-meta">Gavere · Apr 2026</p>
-                        <div class="cm-clip-media">
-                            <video class="cm-clip-video" controls preload="metadata" playsinline
-                                   poster="~/media/clips/posters/clip-1.jpg">
-                                <source src="~/media/clips/clip-1.mp4" type="video/mp4" />
-                                <source src="~/media/clips/clip-1.webm" type="video/webm" />
-                            </video>
+        @if (Model.Clips.Any())
+        {
+            // Pages of three; a short last page keeps its cards on the left.
+            var clipPages = Model.Clips.Chunk(3).ToList();
+            <div id="clipCarousel" class="carousel slide cm-clip-carousel cm-gutter-carousel mt-3" data-bs-interval="false" data-bs-ride="false">
+                <div class="carousel-inner">
+                    @for (int page = 0; page < clipPages.Count; page++)
+                    {
+                        // Only the first page loads its videos up front; the rest wait until they are shown.
+                        ViewData["Preload"] = page == 0 ? "metadata" : "none";
+                        <div class="carousel-item @(page == 0 ? "active" : "")">
+                            <div class="row gy-4 justify-content-start">
+                                @foreach (var clip in clipPages[page])
+                                {
+                                    <div class="col-md-6 col-lg-4">
+                                        <partial name="_ClipItem" model="clip" />
+                                    </div>
+                                }
+                            </div>
                         </div>
-                    </div>
-                </article>
+                    }
+                </div>
+
+                @if (clipPages.Count > 1)
+                {
+                    <button class="carousel-control-prev" type="button" data-bs-target="#clipCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous clips</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#clipCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next clips</span>
+                    </button>
+                }
             </div>
-            <div class="col-md-6 col-lg-4">
-                <article class="cm-clip-card">
-                    <div class="cm-clip-body">
-                        <h3 class="cm-clip-title">Live at Isorex Arena</h3>
-                        <p class="cm-clip-meta">Gavere · Apr 2026</p>
-                        <div class="cm-clip-media">
-                            <video class="cm-clip-video" controls preload="metadata" playsinline
-                                   poster="~/media/clips/posters/clip-2.jpg">
-                                <source src="~/media/clips/clip-2.mp4" type="video/mp4" />
-                                <source src="~/media/clips/clip-2.webm" type="video/webm" />
-                            </video>
-                        </div>
-                    </div>
-                </article>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <article class="cm-clip-card">
-                    <div class="cm-clip-body">
-                        <h3 class="cm-clip-title">Live at Isorex Arena</h3>
-                        <p class="cm-clip-meta">Gavere · Apr 2026</p>
-                        <div class="cm-clip-media">
-                            <video class="cm-clip-video" controls preload="metadata" playsinline
-                                   poster="~/media/clips/posters/clip-3.jpg">
-                                <source src="~/media/clips/clip-3.mp4" type="video/mp4" />
-                                <source src="~/media/clips/clip-3.webm" type="video/webm" />
-                            </video>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </div>
+        }
+        else
+        {
+            <p class="mt-3">New clips are on their way.</p>
+        }
     </div>
 </section>
 
@@ -230,9 +214,7 @@
                     For bookings and press inquiries, reach out and we'll get back to you as soon as possible.
                 </p>
                 <ul class="cm-contact-list">
-                    <li><span>Management</span> barrrchoque@gmail.com</li>
-                    <li><span>Press</span> barrrchoque@gmail.com</li>
-                    <li><span>General</span> barrrchoque@gmail.com</li>
+                    <li><span>Contact Us</span>Insert Band Email</li>
                 </ul>
             </div>
             <div class="col-lg-5">

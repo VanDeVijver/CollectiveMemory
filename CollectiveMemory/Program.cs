@@ -1,4 +1,4 @@
-using CollectiveMemory.Core.Data;
+﻿using CollectiveMemory.Core.Data;
 using CollectiveMemory.Core.Entities;
 using CollectiveMemory.Core.Services;
 using CollectiveMemory.Core.Services.Interfaces;
@@ -60,6 +60,7 @@ namespace CollectiveMemory
             //Register Services
             builder.Services.AddScoped<IShowService, ShowService>();
             builder.Services.AddScoped<IMemberService, MemberService>();
+            builder.Services.AddScoped<IClipService, ClipService>();
 
             // --- MVC ---
             builder.Services.AddControllersWithViews();

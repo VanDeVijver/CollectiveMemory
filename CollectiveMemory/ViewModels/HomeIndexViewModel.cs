@@ -4,5 +4,6 @@
     {
         public List<MemberViewModel> Members { get; set; } = [];
         public List<ShowViewModel> Shows { get; set; } = [];
+        public List<ClipViewModel> Clips { get; set; } = [];
     }
 }

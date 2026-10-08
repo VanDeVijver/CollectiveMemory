@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CollectiveMemory.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CollectiveMemory.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261008083146_AddClips")]
+    partial class AddClips
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,9 +104,6 @@ namespace CollectiveMemory.Core.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("HasUploadedVideo")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("PosterUrl")
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
@@ -134,7 +134,6 @@ namespace CollectiveMemory.Core.Migrations
                         {
                             Id = 1,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            HasUploadedVideo = false,
                             PosterUrl = "/media/clips/posters/clip-1.jpg",
                             Subtitle = "Gavere · Apr 2026",
                             Title = "Live at Isorex Arena",
@@ -144,7 +143,6 @@ namespace CollectiveMemory.Core.Migrations
                         {
                             Id = 2,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            HasUploadedVideo = false,
                             PosterUrl = "/media/clips/posters/clip-2.jpg",
                             Subtitle = "Gavere · Apr 2026",
                             Title = "Live at Isorex Arena",
@@ -154,31 +152,11 @@ namespace CollectiveMemory.Core.Migrations
                         {
                             Id = 3,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            HasUploadedVideo = false,
                             PosterUrl = "/media/clips/posters/clip-3.jpg",
                             Subtitle = "Gavere · Apr 2026",
                             Title = "Live at Isorex Arena",
                             VideoUrl = "/media/clips/clip-3.mp4"
                         });
-                });
-
-            modelBuilder.Entity("CollectiveMemory.Core.Entities.ClipFile", b =>
-                {
-                    b.Property<int>("ClipId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<byte[]>("Data")
-                        .IsRequired()
-                        .HasColumnType("bytea");
-
-                    b.HasKey("ClipId");
-
-                    b.ToTable("ClipFiles");
                 });
 
             modelBuilder.Entity("CollectiveMemory.Core.Entities.Member", b =>
@@ -535,17 +513,6 @@ namespace CollectiveMemory.Core.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CollectiveMemory.Core.Entities.ClipFile", b =>
-                {
-                    b.HasOne("CollectiveMemory.Core.Entities.Clip", "Clip")
-                        .WithOne("VideoFile")
-                        .HasForeignKey("CollectiveMemory.Core.Entities.ClipFile", "ClipId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Clip");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -595,11 +562,6 @@ namespace CollectiveMemory.Core.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CollectiveMemory.Core.Entities.Clip", b =>
-                {
-                    b.Navigation("VideoFile");
                 });
 #pragma warning restore 612, 618
         }

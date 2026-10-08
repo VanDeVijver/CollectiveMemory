@@ -1,0 +1,8 @@
+@{
+    var action = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+    var onClips = action is "Clips" or "CreateClip";
+}
+<div class="d-flex gap-2 mb-4">
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-sm @(onClips ? "btn-outline-light" : "btn-primary")">Shows</a>
+    <a asp-controller="Admin" asp-action="Clips" class="btn btn-sm @(onClips ? "btn-primary" : "btn-outline-light")">Clips</a>
+</div>
