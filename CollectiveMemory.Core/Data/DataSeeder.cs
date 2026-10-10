@@ -48,7 +48,7 @@ namespace CollectiveMemory.Core.Data
                     Bio = "Met een brede muzikale smaak en veel goesting om samen te spelen," +
                                     " is Katrientje Verhaert actief bij DOZ-band en Collective Memory XL." +
                                     " Gedreven door samenspel en muzikale nieuwsgierigheid zoekt ze steeds naar connectie in muziek.",
-                    Image = "placeholder",
+                    Image = "Katrientje.webp",
                     CreatedAt = SeedDate
                 },
                 new Member
@@ -60,7 +60,7 @@ namespace CollectiveMemory.Core.Data
                     FavoriteMusic = new List<string> { "Meerstemmige Rock", "Meerstemmige Pop", "'70s" },
                     Instruments = new List<string> { "Gitaar", "Vocals" },
                     Bio = "TO BE INSERTED",
-                    Image = "placeholder",
+                    Image = "Eric.webp",
                     CreatedAt = SeedDate
                 },
                 new Member
@@ -75,7 +75,7 @@ namespace CollectiveMemory.Core.Data
                     Bio = "Begonnen als trommelaar in de fanfare en doorgegroeid als drummer aan de muziekschool van Oudenaarde." +
                                     " Na jaren actief te zijn in fanfares en harmonieën, volledig zijn ding gevonden in de bigbandmuziek" +
                                     " en nu een nieuwe uitdaging gevonden bij Collective Memory.",
-                    Image = "placeholder",
+                    Image = "Lorenz.webp",
                     CreatedAt = SeedDate
                 },
                 new Member
@@ -87,19 +87,19 @@ namespace CollectiveMemory.Core.Data
                     FavoriteMusic = new List<string> { "TO BE INSERTED" },
                     Instruments = new List<string> { "Gitaar", "Vocals" },
                     Bio = "TO BE INSERTED",
-                    Image = "placeholder",
+                    Image = "Rudi.webp",
                     CreatedAt = SeedDate
                 },
                 new Member
                 {
                     Id = 5,
-                    Firstname = "Bet",
+                    Firstname = "Bert",
                     Lastname = "Denayer",
                     Bands = new List<string> { "Collective Memory XL", "Black on light", "DOZ-band" },
                     FavoriteMusic = new List<string> { "Dave Matthews Band", "The Doors" },
                     Instruments = new List<string> { "Bass", "Zang" },
                     Bio = "TO BE INSERTED",
-                    Image = "placeholder",
+                    Image = "Bert.webp",
                     CreatedAt = SeedDate
                 },
                 new Member
