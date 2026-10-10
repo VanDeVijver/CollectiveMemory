@@ -1,0 +1,47 @@
+@model CollectiveMemory.ViewModels.SongFormViewModel
+@{
+    var mode = ViewData["Mode"] as string ?? "New";
+    var songId = ViewData["SongId"];
+    var isNew = mode == "New";
+    ViewData["Title"] = isNew ? "Add a song" : "Edit song";
+}
+
+<section class="cm-section">
+    <div class="container" style="max-width: 40rem;">
+        <h1 class="cm-section-title">@(isNew ? "Add a song" : "Edit song")</h1>
+
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+        <form asp-action="@mode" asp-route-id="@songId" method="post" class="cm-newsletter-card">
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label"></label>
+                <input asp-for="Title" class="form-control" placeholder="e.g. Teach Your Children" autofocus />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Artist" class="form-label"></label>
+                <input asp-for="Artist" class="form-control" placeholder="e.g. Crosby, Stills, Nash &amp; Young" />
+                <span asp-validation-for="Artist" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Key" class="form-label"></label>
+                <input asp-for="Key" class="form-control" placeholder="e.g. D or Am" />
+                <span asp-validation-for="Key" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Notes" class="form-label"></label>
+                <textarea asp-for="Notes" class="form-control" rows="3"
+                          placeholder="Capo, tuning, who sings lead, tempo..."></textarea>
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">@(isNew ? "Add song" : "Save")</button>
+                <a asp-action="Index" class="btn btn-outline-light">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>

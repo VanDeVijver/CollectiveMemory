@@ -61,6 +61,8 @@ namespace CollectiveMemory
             builder.Services.AddScoped<IShowService, ShowService>();
             builder.Services.AddScoped<IMemberService, MemberService>();
             builder.Services.AddScoped<IClipService, ClipService>();
+            builder.Services.AddScoped<ISongService, SongService>();
+            builder.Services.AddScoped<ISetlistService, SetlistService>();
 
             // --- MVC ---
             builder.Services.AddControllersWithViews();

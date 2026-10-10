@@ -18,5 +18,8 @@ namespace CollectiveMemory.Core.Entities
         public List<string>? AdditionalLinks { get; set; }
 
         public double Price { get; set; }
+
+        // Null until the band prepares a setlist for this show.
+        public Setlist? Setlist { get; set; }
     }
 }
