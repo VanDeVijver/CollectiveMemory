@@ -1,4 +1,4 @@
-@model CollectiveMemory.ViewModels.SongbookViewModel
+﻿@model CollectiveMemory.ViewModels.SongbookViewModel
 @{
     ViewData["Title"] = "Songbook";
 }
@@ -36,6 +36,7 @@
                             <th>Artist</th>
                             <th>Key</th>
                             <th>Notes</th>
+                            <th>Score</th>
                             <th class="text-end">In setlists</th>
                             <th></th>
                         </tr>
@@ -48,6 +49,12 @@
                                 <td>@song.Artist</td>
                                 <td>@song.Key</td>
                                 <td>@song.Notes</td>
+                                <td>
+                                    @if (song.HasScore)
+                                    {
+                                        <a asp-action="Score" asp-route-id="@song.Id" target="_blank" rel="noopener" class="text-dark">View</a>
+                                    }
+                                </td>
                                 <td class="text-end">@song.SetlistCount</td>
                                 <td class="text-end text-nowrap">
                                     <a asp-action="Edit" asp-route-id="@song.Id" class="btn btn-sm btn-outline-light">Edit</a>

@@ -52,7 +52,8 @@ namespace CollectiveMemory.Controllers
             var setlist = await _setlistService.GetForShowAsync(showId);
             var items = (setlist?.Songs ?? []).Select(x => new SetlistItemViewModel
             {
-                Id = x.Id, Position = x.Position, Title = x.Song.Title,
+                Id = x.Id, Position = x.Position, SongId = x.SongId, HasScore = x.Song.ScoreFileName != null,
+                Title = x.Song.Title,
                 Artist = x.Song.Artist, Key = x.Song.Key, Notes = x.Song.Notes,
             }).ToList();
 
