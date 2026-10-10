@@ -1,0 +1,102 @@
+@model CollectiveMemory.ViewModels.SetlistEditViewModel
+@{
+    ViewData["Title"] = "Setlist · " + Model.Show.Venue;
+    var last = Model.Items.Count - 1;
+}
+
+<section class="cm-section">
+    <div class="container" style="max-width: 52rem;">
+        <p class="mb-2"><a asp-action="Index" class="text-dark">&larr; All setlists</a></p>
+        <h1 class="cm-section-title mb-1">Setlist</h1>
+        <p class="cm-section-lead">
+            @Model.Show.Venue, @Model.Show.City &middot; @Model.Show.DateDisplay &middot; @Model.Show.TimeDisplay
+        </p>
+
+        @if (TempData["AdminMessage"] is string message)
+        {
+            <div class="alert alert-success">@message</div>
+        }
+        @if (TempData["AdminError"] is string error)
+        {
+            <div class="alert alert-danger">@error</div>
+        }
+
+        @if (Model.Items.Any())
+        {
+            <ol class="list-unstyled mt-3">
+                @for (var i = 0; i < Model.Items.Count; i++)
+                {
+                    var item = Model.Items[i];
+                    <li class="cm-card mb-3 d-flex align-items-center gap-3 flex-wrap">
+                        <span class="fs-4 fw-bold" style="min-width: 2rem;">@item.Position</span>
+                        <div class="flex-grow-1">
+                            <strong>@item.Title</strong>
+                            @if (!string.IsNullOrWhiteSpace(item.Key))
+                            {
+                                <span class="badge rounded-pill bg-light text-dark ms-1">@item.Key</span>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(item.Artist))
+                            {
+                                <div class="small text-muted">@item.Artist</div>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(item.Notes))
+                            {
+                                <div class="small">@item.Notes</div>
+                            }
+                        </div>
+                        <div class="d-flex gap-1">
+                            <form asp-action="Move" asp-route-showId="@Model.Show.Id" asp-route-id="@item.Id" method="post">
+                                <input type="hidden" name="direction" value="-1" />
+                                <button type="submit" class="btn btn-sm btn-outline-light" aria-label="Move up" disabled="@(i == 0)">&uarr;</button>
+                            </form>
+                            <form asp-action="Move" asp-route-showId="@Model.Show.Id" asp-route-id="@item.Id" method="post">
+                                <input type="hidden" name="direction" value="1" />
+                                <button type="submit" class="btn btn-sm btn-outline-light" aria-label="Move down" disabled="@(i == last)">&darr;</button>
+                            </form>
+                            <form asp-action="RemoveSong" asp-route-showId="@Model.Show.Id" asp-route-id="@item.Id" method="post">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+                            </form>
+                        </div>
+                    </li>
+                }
+            </ol>
+        }
+        else
+        {
+            <p class="mt-3">@(Model.HasSetlist ? "This setlist is empty." : "No setlist yet for this show.") Add the first song below.</p>
+        }
+
+        <div class="cm-newsletter-card mt-4">
+            <h2 class="cm-card-title mb-3">Add a song</h2>
+            @if (Model.SongbookIsEmpty)
+            {
+                <p class="mb-0">The songbook is empty. <a asp-controller="Songbook" asp-action="New">Add songs to the songbook</a> first.</p>
+            }
+            else if (!Model.Available.Any())
+            {
+                <p class="mb-0">Every song in the songbook is already in this setlist.</p>
+            }
+            else
+            {
+                <form asp-action="AddSong" asp-route-showId="@Model.Show.Id" method="post" class="d-flex gap-2 flex-wrap">
+                    <select name="songId" class="form-select" style="max-width: 28rem;" required aria-label="Song">
+                        <option value="">Choose a song&hellip;</option>
+                        @foreach (var song in Model.Available)
+                        {
+                            <option value="@song.Id">@song.Title@(string.IsNullOrWhiteSpace(song.Key) ? "" : $" ({song.Key})")</option>
+                        }
+                    </select>
+                    <button type="submit" class="btn btn-primary">Add to setlist</button>
+                </form>
+            }
+        </div>
+
+        @if (Model.HasSetlist)
+        {
+            <form asp-action="DeleteSetlist" asp-route-showId="@Model.Show.Id" method="post" class="mt-4"
+                  onsubmit="return confirm('Delete this whole setlist? The songs stay in the songbook.');">
+                <button type="submit" class="btn btn-sm btn-outline-danger">Delete setlist</button>
+            </form>
+        }
+    </div>
+</section>

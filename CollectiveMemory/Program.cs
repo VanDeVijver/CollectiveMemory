@@ -61,6 +61,8 @@ namespace CollectiveMemory
             builder.Services.AddScoped<IShowService, ShowService>();
             builder.Services.AddScoped<IMemberService, MemberService>();
             builder.Services.AddScoped<IClipService, ClipService>();
+            builder.Services.AddScoped<ISongService, SongService>();
+            builder.Services.AddScoped<ISetlistService, SetlistService>();
 
             // --- MVC ---
             builder.Services.AddControllersWithViews();
@@ -84,10 +86,16 @@ namespace CollectiveMemory
                 }
                 else
                 {
+                    // One-off: set Admin:ResetPassword=true to make the configured password the account's
+                    // password, then remove it again (it would otherwise re-apply on every start).
+                    var resetPassword = app.Configuration.GetValue<bool>("Admin:ResetPassword");
+                    if (resetPassword)
+                        app.Logger.LogWarning("Admin:ResetPassword is set - the admin password is being reset. Remove this setting afterwards.");
+
                     IdentitySeeder.SeedAdminAsync(
                         scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>(),
                         scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>(),
-                        adminUsername, adminPassword).GetAwaiter().GetResult();
+                        adminUsername, adminPassword, resetPassword).GetAwaiter().GetResult();
                 }
             }
 

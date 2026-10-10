@@ -1,0 +1,25 @@
+@model CollectiveMemory.ViewModels.SetlistShowRowViewModel
+
+<div class="cm-shows-item">
+    <div>
+        <p class="cm-shows-date">@Model.Show.DateDisplay</p>
+        <p class="cm-shows-city">@Model.Show.City, BE</p>
+        <p class="cm-shows-venue">@Model.Show.Venue</p>
+        <p class="cm-shows-time">
+            @if (Model.SongCount is { } count)
+            {
+                @($"Setlist: {count} song{(count == 1 ? "" : "s")}")
+            }
+            else
+            {
+                @:No setlist yet
+            }
+        </p>
+    </div>
+    <div class="cm-shows-actions">
+        <a asp-controller="Setlists" asp-action="Edit" asp-route-showId="@Model.Show.Id"
+           class="btn btn-sm @(Model.SongCount is null ? "btn-primary" : "btn-outline-light")">
+            @(Model.SongCount is null ? "Create setlist" : "Open setlist")
+        </a>
+    </div>
+</div>
