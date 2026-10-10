@@ -63,6 +63,7 @@ namespace CollectiveMemory
             builder.Services.AddScoped<IClipService, ClipService>();
             builder.Services.AddScoped<ISongService, SongService>();
             builder.Services.AddScoped<ISetlistService, SetlistService>();
+            builder.Services.AddScoped<IUnavailableDayService, UnavailableDayService>();
 
             // --- MVC ---
             builder.Services.AddControllersWithViews();

@@ -17,6 +17,10 @@ namespace CollectiveMemory.Core.Entities
         // Anything the band wants to remember: capo, tuning, who sings lead.
         public string? Notes { get; set; }
 
+        // Original file name of the uploaded score (PDF or image), or null when the song has none.
+        public string? ScoreFileName { get; set; }
+        public SongScoreFile? ScoreFile { get; set; }
+
         public ICollection<SetlistSong> SetlistSongs { get; set; } = new List<SetlistSong>();
     }
 }

@@ -1,10 +1,11 @@
-@{
+﻿@{
     var controller = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
     var action = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
     var active = controller switch
     {
         "Songbook" => "songbook",
         "Setlists" => "setlists",
+        "Calendar" => "calendar",
         _ => action is "Clips" or "CreateClip" ? "clips" : "shows"
     };
     string Cls(string tab) => active == tab ? "btn-primary" : "btn-outline-light";
@@ -14,4 +15,5 @@
     <a asp-controller="Admin" asp-action="Clips" class="btn btn-sm @Cls("clips")">Clips</a>
     <a asp-controller="Songbook" asp-action="Index" class="btn btn-sm @Cls("songbook")">Songbook</a>
     <a asp-controller="Setlists" asp-action="Index" class="btn btn-sm @Cls("setlists")">Setlists</a>
+    <a asp-controller="Calendar" asp-action="Index" class="btn btn-sm @Cls("calendar")">Calendar</a>
 </div>

@@ -20,6 +20,8 @@ namespace CollectiveMemory.Core.Data
         public DbSet<Setlist> Setlists => Set<Setlist>();
         public DbSet<Song> Songs => Set<Song>();
         public DbSet<SetlistSong> SetlistSongs => Set<SetlistSong>();
+        public DbSet<SongScoreFile> SongScoreFiles => Set<SongScoreFile>();
+        public DbSet<UnavailableDay> UnavailableDays => Set<UnavailableDay>();
 
         // Auth cookie/antiforgery keys live in the database so they survive container restarts.
         public DbSet<DataProtectionKey> DataProtectionKeys => Set<DataProtectionKey>();
@@ -74,6 +76,7 @@ namespace CollectiveMemory.Core.Data
             {
                 entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
                 entity.Property(e => e.Artist).HasMaxLength(200);
+                entity.Property(e => e.ScoreFileName).HasMaxLength(200);
                 entity.Property(e => e.Key).HasMaxLength(20);
                 entity.Property(e => e.Notes).HasMaxLength(500);
             });
@@ -87,6 +90,21 @@ namespace CollectiveMemory.Core.Data
                     .HasForeignKey(e => e.SongId).OnDelete(DeleteBehavior.Cascade);
                 entity.HasIndex(e => new { e.SetlistId, e.SongId }).IsUnique();   // a song once per setlist
                 entity.HasIndex(e => new { e.SetlistId, e.Position });
+            });
+
+            builder.Entity<SongScoreFile>(entity =>
+            {
+                entity.HasKey(e => e.SongId);
+                entity.Property(e => e.ContentType).IsRequired().HasMaxLength(50);
+                entity.Property(e => e.Data).IsRequired();
+                entity.HasOne(e => e.Song).WithOne(s => s.ScoreFile)
+                    .HasForeignKey<SongScoreFile>(e => e.SongId).OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<UnavailableDay>(entity =>
+            {
+                entity.Property(e => e.Note).HasMaxLength(200);
+                entity.HasIndex(e => e.Date).IsUnique();   // one entry per day
             });
 
             DataSeeder.Seed(builder);
