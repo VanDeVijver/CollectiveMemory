@@ -95,7 +95,7 @@ namespace CollectiveMemory.Core.Data
                     Bio = "Rudi is een man met al tal van jaren ervaring binnen de muziekwereld, neem maar eens een kijkje naar zijn repertoire:" +
                     " jaren 80: UNION met oa. Peter Vermeersch; jaren 2006-2025:" +
                     " Collective Memory; jaren 2010-2026: The Noise Dikkelvenne; jaren 2017-2018: Piloot met Bert Villa;" +
-                    " en nu dus ook kan hij zijn expertise en liefde voor muziek delen in Collective Memory XL",
+                    " en dus nu kan hij ook zijn expertise en liefde voor muziek delen in Collective Memory XL",
                     Image = "Rudi.webp",
                     CreatedAt = SeedDate
                 },
@@ -107,8 +107,8 @@ namespace CollectiveMemory.Core.Data
                     Bands = new List<string> { "Collective Memory XL", "Black on light", "DOZ-band" },
                     FavoriteMusic = new List<string> { "Dave Matthews Band", "The Doors" },
                     Instruments = new List<string> { "Bass", "Zang" },
-                    Bio = "Bert zijn hele leven staat in teken van muziek. In zijn jonge jaren leerde hij al de fundamenten van muziek aan het conservatorium" +
-                    " vervolgens scherpte hij zijn kennis omtrent producing bij. Hierna bracht hij 'like-minded' mensen samen in muziekcafé de giraf en " +
+                    Bio = "Bert zijn hele leven staat in teken van muziek. In zijn jonge jaren leerde hij al de fundamenten van muziek in de \"Rockfabriek \" en aan het conservatorium. " +
+                    "Hierna bracht hij like-minded mensen samen in muziekcafé \"De Giraf\" en " +
                     "in het heden spendeert hij zijn vrije tijd op zijn bassgitaar onder de vlag van onder andere DOZband, Black On Light en nu dus ook Collective Memory Xl",
                     Image = "Bert.webp",
                     CreatedAt = SeedDate
